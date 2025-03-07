@@ -1,0 +1,56 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Load Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!--to render the chart-->
+</head>
+<body>
+    <h1>Welcome to the Page Load Tracker</h1>
+
+
+    <!--chart render-->
+
+ <canvas id="loadChart"></canvas>
+
+    <script>
+        async function fetchData() {
+            const response = await fetch('/data');
+            const data = await response.json();
+
+            const labels = data.map(entry => entry.date);
+            const counts = data.map(entry => entry.count);
+
+            const ctx = document.getElementById('loadChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Page Loads per Day',
+                        data: counts,
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                }
+            });
+        }
+
+        fetchData();
+    </script>
+
+
+
+
+
+<!--tracking script-->
+    <script src="tracker.js"></script>
+</body>
+</html>
+
+
+<!--Create a public folder and inside it, create an index.html file
+
